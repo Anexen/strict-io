@@ -24,5 +24,5 @@ class Iris(BaseModel):
     variety: Variety
 
 
-read_csv("iris.csv")
+read_csv("iris.csv", Iris)  # Iterable[Iris]
 ```
