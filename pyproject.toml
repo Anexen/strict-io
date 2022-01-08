@@ -18,6 +18,12 @@ classifiers = [
 [project.urls]
 Home = "https://github.com/Anexen/strict-io"
 
+[project.optional-dependencies]
+test = [
+    "pydantic >= 1",
+    "pytest >= 6",
+]
+
 [tool.black]
 line-length = 79
 

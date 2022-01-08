@@ -61,7 +61,6 @@ def read_csv(
         fieldnames = next(reader) if header else list(schema.__fields__.keys())
 
         for row in reader:
-
             if not row:
                 continue
 
