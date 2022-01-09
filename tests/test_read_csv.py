@@ -27,10 +27,10 @@ class BioStats(BaseModel):
     weight: int = Field(alias="Weight (lbs)")
 
 
-def test_no_heading():
+def assert_addresses(filename):
     addresses = list(
         read_csv(
-            "tests/data/addresses.csv",
+            filename,
             Address,
             header=False,
             skipinitialspace=True,
@@ -49,3 +49,15 @@ def test_skip_initial_space():
     assert isinstance(stats[0], BioStats)
     assert stats[0].sex == Sex.MALE
     assert stats[0].weight == 170
+
+
+def test_no_heading():
+    assert_addresses("tests/data/addresses.csv")
+
+
+def test_compression_gz():
+    assert_addresses("tests/data/addresses.csv.gz")
+
+
+def test_compression_zip():
+    assert_addresses("tests/data/addresses.csv.zip")

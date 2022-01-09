@@ -1,4 +1,5 @@
 import os
+from io import TextIOWrapper
 from contextlib import nullcontext
 
 
@@ -42,7 +43,8 @@ def use_compression(filename_or_obj, compression):
     if compression == "zip":
         from zipfile import ZipFile
 
-        return ZipFile(filename_or_obj)
+        with ZipFile(filename_or_obj) as zipfile:
+            return TextIOWrapper(zipfile.open(zipfile.filelist[0]))
 
     if compression is None:
         if isinstance(filename_or_obj, (str, os.PathLike)):
@@ -51,4 +53,4 @@ def use_compression(filename_or_obj, compression):
         # caller is responsible for closing file
         return nullcontext(filename_or_obj)
 
-    raise ValueError(f"Unknown compression value: {compression}")
+    raise ValueError(f"Unknown or unsupported compression: {compression}")
