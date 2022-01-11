@@ -61,3 +61,11 @@ def test_compression_gz():
 
 def test_compression_zip():
     assert_addresses("tests/data/addresses.csv.zip")
+
+
+def test_compression_tar():
+    assert_addresses("tests/data/addresses.csv.tar.gz")
+
+
+def test_compression_bz2():
+    assert_addresses("tests/data/addresses.csv.bz2")

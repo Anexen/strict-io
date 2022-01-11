@@ -1,23 +1,19 @@
 import csv
-import sys
 import os
 from typing import (
+    TYPE_CHECKING,
     BinaryIO,
     Iterable,
     Optional,
+    Set,
     Type,
     TypeVar,
     Union,
-    Set,
-    TYPE_CHECKING,
 )
 
 from ._common import DEFAULT_NA_VALUES, use_compression
+from ._typing import MaybeCompression
 
-if sys.version_info >= (3, 8):
-    from typing import Literal
-else:
-    from typing_extensions import Literal
 
 if TYPE_CHECKING:
     from pydantic import BaseModel
@@ -33,7 +29,7 @@ def read_csv(
     filename_or_obj: Union[str, os.PathLike, BinaryIO],
     schema: Type[T],
     *,
-    compression: Optional[Literal["infer", "gzip", "zip"]] = "infer",
+    compression: MaybeCompression = "infer",
     header: bool = True,
     skipinitialspace: bool = False,
     sep: str = ",",
@@ -64,5 +60,4 @@ def read_csv(
             if not row:
                 continue
 
-            row = dict(zip(fieldnames, map(read_value, row)))
-            yield schema.parse_obj(row)
+            yield schema.parse_obj(dict(zip(fieldnames, map(read_value, row))))
