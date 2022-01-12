@@ -52,9 +52,9 @@ class CloseStack:
         return self.resource.__enter__()
 
     def __exit__(self, *args, **kwargs):
+        self.resource.__exit__()
         for cm in reversed(self.other):
             cm.__exit__(*args, **kwargs)
-        return self.resource.__exit__()
 
 
 def use_compression(

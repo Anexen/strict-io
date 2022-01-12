@@ -1,40 +1,23 @@
 import csv
-import os
-from typing import (
-    TYPE_CHECKING,
-    BinaryIO,
-    Iterable,
-    Optional,
-    Set,
-    Type,
-    TypeVar,
-    Union,
-)
+from typing import Iterable, Optional, Set, Type
 
 from ._common import DEFAULT_NA_VALUES, use_compression
-from ._typing import MaybeCompression
-
-
-if TYPE_CHECKING:
-    from pydantic import BaseModel
-
-
-T = TypeVar("T", bound="BaseModel")
+from ._typing import MaybeCompression, FileInput, Model
 
 
 __all__ = ["read_csv"]
 
 
 def read_csv(
-    filename_or_obj: Union[str, os.PathLike, BinaryIO],
-    schema: Type[T],
+    filename_or_obj: FileInput,
+    schema: Type[Model],
     *,
     compression: MaybeCompression = "infer",
     header: bool = True,
     skipinitialspace: bool = False,
     sep: str = ",",
     na_values: Optional[Set[str]] = None,
-) -> Iterable[T]:
+) -> Iterable[Model]:
 
     if na_values is None:
         na_values = DEFAULT_NA_VALUES
