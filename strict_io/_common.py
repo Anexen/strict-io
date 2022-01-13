@@ -23,7 +23,10 @@ DEFAULT_NA_VALUES = {
 
 
 def infer_compression(filename_or_obj) -> Optional[Compression]:
-    filename = os.fspath(filename_or_obj)
+    try:
+        filename = os.fspath(filename_or_obj)
+    except TypeError:
+        return None
 
     if filename.endswith(".tar.gz"):
         return "tar"
